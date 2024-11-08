@@ -1,0 +1,13 @@
+.h1{
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+}
+button{
+    text-align: center;
+    display: inline;
+    justify-content: space-around;
+    size: 10;
+    border-radius: 14%;
+    margin: 1%;
+    background-color:white;
+    
+}
