@@ -8,8 +8,8 @@ function Navbar(props){
             <div className="flex gap-x-16">
                 <a className="font-semibold text-3xl">Mebius</a>      
                 <div className="flex items-center gap-4">
-                    <a href="./">Home</a>  
-                    <a href="./shop">Shop</a> 
+                    <a href="./">Home</a>
+                    <a href="./shop">Shop</a>
                 </div>
             </div>
             <div className="flex items-center gap-4">

@@ -1,5 +1,7 @@
 import Hero from "./Hero";
 import Navbar from "./Navbar";
+import Products from "./Products";
+
 
 function App() {
 
@@ -10,6 +12,7 @@ function App() {
     <div>
       <Navbar username={username} cartCount={cartCount}/>
       <Hero/>
+      <Products/>
     </div>
   );
 }
