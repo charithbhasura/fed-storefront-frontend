@@ -1,20 +1,3 @@
-   export const getProducts = async () => {
-try {
-    const res =  await fetch("http://localhost:8000/api/products",{
-        method :"GET",
-        headers : {
-          "Content-Type":"application/json",
-        },
-      });
-      const data = await res.json();
-     return(data);
-  
-} catch (error) {
-    throw new error("Error while loading Products");
-}
-
-};
-// Need to use the React-specific entry point to import createApi
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 
 // Define a service using a base URL and expected endpoints
@@ -57,6 +40,20 @@ export const Api = createApi({
     }),
   }),
 })
+export const getProducts = async () => {
+  try {
+    const res = await fetch("http://localhost:8000/api/products", {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    const data = await res.json();
+    return data;
+  } catch (error) {
+    throw new error("Error while loading Products");
+  }
+};
 
 export const {
   useGetProductsQuery,
@@ -65,3 +62,4 @@ export const {
   useCreateProductMutation,
   useGetOrderQuery,
 } = Api;
+

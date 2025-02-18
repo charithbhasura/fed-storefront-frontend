@@ -5,7 +5,6 @@ import {addToCart} from "./lib/features/cartSlice"
 import { Link } from 'react-router';
 
 function ProductCard(props) {
-
     const count = useSelector((state)=> state.counter.value);
     const dispatch = useDispatch(); 
     

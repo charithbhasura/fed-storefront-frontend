@@ -5,7 +5,6 @@ import { Button } from "@/components/ui/button";
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -21,128 +20,122 @@ const formSchema = z.object({
   city: z.string().min(1),
   state: z.string().min(1),
   zip_code: z.string().min(1),
-  phone: z.string().refine(
-    (value) => {
-      // This regex checks for a basic international phone number format
-      return /^\+?[1-9]\d{1,14}$/.test(value);
-    },
-    {
-      message: "Invalid phone number format",
-    }
-  ),
+  phone: z.string().min(1),
 });
+
 const ShippingAddressForm = ({ cart }) => {
   const form = useForm({
     resolver: zodResolver(formSchema),
   });
-  const [createOrder, { isLoading, isError, data }] = useCreateOrderMutation();
+  const [createOrder] = useCreateOrderMutation();
   const navigate = useNavigate();
-  console.log(cart);
-  
+
   function handleSubmit(values) {
     createOrder({
-      items: cart,
-      shippingAddress: {
-        line_1: values.line_1,
-        line_2: values.line_2,
-        city: values.city,
-        state: values.state,
-        zip_code: values.zip_code,
-        phone: values.phone,
-      },
+      items: cart.map((item) => ({
+        product: {
+          _id: item._id,
+          name: item.name,
+          price: parseFloat(item.price),
+          image: item.image,
+          description: item.description,
+        },
+        quantity: item.quantity,
+      })),
+      shippingAddress: values,
     });
     navigate("/shop/payment");
   }
+
   return (
-    <div>
-      <Form {...form}>
-        <form onSubmit={form.handleSubmit(handleSubmit)}>
-          <div className="grid grid-cols-2 gap-y-2 gap-x-4">
-            <FormField
-              control={form.control}
-              name="line_1"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Line 1</FormLabel>
-                  <FormControl>
-                    <Input placeholder="16/1" {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="line_2"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Line 1</FormLabel>
-                  <FormControl>
-                    <Input placeholder="Main St" {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="city"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>City</FormLabel>
-                  <FormControl>
-                    <Input placeholder="Kadawatha" {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="state"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>State/Province</FormLabel>
-                  <FormControl>
-                    <Input placeholder="Western Province" {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="zip_code"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Zip Code</FormLabel>
-                  <FormControl>
-                    <Input placeholder="11850" {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="phone"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Phone Number</FormLabel>
-                  <FormControl>
-                    <Input placeholder="+94702700100" {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-          </div>
-          <div className="mt-4">
-            <Button type="submit">Proceed to Payment</Button>
-          </div>
-        </form>
-      </Form>
-    </div>
+    <Form {...form}>
+      <form onSubmit={form.handleSubmit(handleSubmit)}>
+        <div className="grid grid-cols-2 gap-y-2 gap-x-4">
+          <FormField
+            control={form.control}
+            name="line_1"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Address Line 1</FormLabel>
+                <FormControl>
+                  <Input placeholder="123 Main St" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="line_2"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Address Line 2</FormLabel>
+                <FormControl>
+                  <Input placeholder="Apt 4B" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="city"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>City</FormLabel>
+                <FormControl>
+                  <Input placeholder="New York" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="state"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>State</FormLabel>
+                <FormControl>
+                  <Input placeholder="NY" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="zip_code"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>ZIP Code</FormLabel>
+                <FormControl>
+                  <Input placeholder="10001" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="phone"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Phone</FormLabel>
+                <FormControl>
+                  <Input placeholder="+1234567890" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+        </div>
+        <div className="mt-4">
+          <Button type="submit">Proceed to Payment</Button>
+        </div>
+      </form>
+    </Form>
   );
 };
+
 export default ShippingAddressForm;

@@ -51,7 +51,7 @@ const mockOrders = [
     items: [
       {
         _id: "4",
-        name: "Bose QuiteComfort",
+        name: "Bose QuietComfort",
         price: "249.00",
         quantity: 2,
         image: "./src/assets/products/quietcomfort.png"
