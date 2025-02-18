@@ -20,7 +20,15 @@ const formSchema = z.object({
   city: z.string().min(1),
   state: z.string().min(1),
   zip_code: z.string().min(1),
-  phone: z.string().min(1),
+  phone: z.string().refine(
+    (value) => {
+      // This regex checks for a basic international phone number format
+      return /^\+?[1-9]\d{1,14}$/.test(value);
+    },
+    {
+      message: "Invalid phone number format",
+    }
+  ),
 });
 
 const ShippingAddressForm = ({ cart }) => {
