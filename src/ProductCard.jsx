@@ -2,7 +2,7 @@ import {Button} from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import {useSelector, useDispatch} from "react-redux";
 import {addToCart} from "./lib/features/cartSlice"
-import { Link } from 'react-router';
+import { Link } from 'react-router-dom';
 
 function ProductCard(props) {
     const count = useSelector((state)=> state.counter.value);

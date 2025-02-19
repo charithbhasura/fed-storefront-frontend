@@ -1,6 +1,6 @@
 import { useAuth, useUser } from '@clerk/clerk-react';
 import React from 'react'
-import { Navigate } from 'react-router';
+import { Navigate } from 'react-router-dom';
 
 function AccountPage() {
 

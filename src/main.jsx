@@ -1,5 +1,5 @@
 import { createRoot } from "react-dom/client";
-import { BrowserRouter, Route, Routes } from "react-router";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { store } from "@/lib/store";
 import { Provider } from "react-redux";
 import { ClerkProvider } from "@clerk/clerk-react";

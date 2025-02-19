@@ -25,7 +25,7 @@ function AdminProductCreatePage() {
     <main className="container mx-auto px-4 py-8">
       <Separator className="my-4" />
       <div className="mt-4">
-        <h4 className="text-3xl font-semibold">Enter Product Item Details</h4>
+        <h4 className="text-3xl font-semibold">Add New Product Item To your Store From Here</h4>
         <div className="mt-2 w-1/2">
           <ProductCreationForm productItemCart={productItemCart}/>
         </div>

@@ -1,7 +1,7 @@
 import { SignedIn, SignedOut, UserButton, useUser } from '@clerk/clerk-react';
 import { ShoppingCart } from 'lucide-react';
 import { useSelector } from "react-redux";
-import { Link } from "react-router";
+import { Link } from "react-router-dom";
 
 function Navbar(props) {
     const { user } = useUser();

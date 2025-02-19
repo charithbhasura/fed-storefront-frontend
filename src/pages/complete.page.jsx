@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { useGetOrderQuery } from "@/lib/api";
-import { Link, useSearchParams } from "react-router";
+import { Link, useSearchParams } from "react-router-dom";
 
 function CompletePage() {
 
