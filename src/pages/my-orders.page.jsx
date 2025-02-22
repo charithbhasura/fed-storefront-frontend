@@ -1,8 +1,10 @@
 import { useUser } from "@clerk/clerk-react";
 import { Separator } from "@/components/ui/separator";
 import { format } from "date-fns";
+import axios from "axios";
+import React, { useEffect, useState } from "react";
 
-  // This would typically come from an API  (project backend is not connecting successfully always getting "mongooseserverselection" error, eventhough i fixed  with every posible way)
+  // This would typically come from an API  (project backend is not connecting successfully always getting error, eventhough i fixed  with every posible way)
   // For now using mock data for the ui implementation
 
 const mockOrders = [
@@ -107,6 +109,24 @@ const OrderCard = ({ order }) => {
 };
 
 const MyOrdersPage = () => {
+
+
+  const [orders, setOrders] = useState([]);
+
+    useEffect(() => {
+        const fetchOrders = async () => {
+            try {
+                const response = await axios.get('/api/order');
+                setOrders(response.data);
+            } catch (error) {
+                console.error('Error fetching orders:', error);
+            }
+        };
+
+        fetchOrders();
+    }, []);
+
+
   const { user } = useUser();
 
   return (

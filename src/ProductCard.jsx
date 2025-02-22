@@ -35,7 +35,7 @@ function ProductCard(props) {
           {props.stockQuantity <= 0 ? (
             <span className="text-red-500 text-sm">Out of Stock</span>
           ) : props.stockQuantity <= props.lowStockThreshold ? (
-            <span className="text-orange-500 text-sm">Low Stock: {props.stockQuantity} left</span>
+            <span className="text-orange-400 text-sm">Low Stock: {props.stockQuantity}items left</span>
           ) : (
             <span className="text-green-500 text-sm">In Stock</span>
           )}

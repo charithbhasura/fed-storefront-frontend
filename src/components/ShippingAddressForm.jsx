@@ -56,6 +56,7 @@ const ShippingAddressForm = ({ cart }) => {
   }
 
   return (
+    <div className="container mx-auto px-4 py-8 ">
     <Form {...form}>
       <form onSubmit={form.handleSubmit(handleSubmit)}>
         <div className="grid grid-cols-2 gap-y-2 gap-x-4">
@@ -143,6 +144,7 @@ const ShippingAddressForm = ({ cart }) => {
         </div>
       </form>
     </Form>
+    </div>
   );
 };
 

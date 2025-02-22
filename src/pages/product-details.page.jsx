@@ -3,6 +3,8 @@ import { Button } from "@/components/ui/button";
 import { useDispatch } from "react-redux";
 import { addToCart } from "@/lib/features/cartSlice";
 import { Separator } from "@/components/ui/separator";
+import axios from 'axios';
+import { useEffect, useState } from 'react';
 
 const ProductDetailsPage = (props) => {
   const { productId } = useParams();
@@ -24,6 +26,26 @@ const ProductDetailsPage = (props) => {
       "Seamless switching between devices"
     ]
   };
+
+//code for fetching data from the backend "uncomment cosnst product and setProduct"
+  // const [product, setProduct] = useState(null);
+  
+      useEffect(() => {
+          const fetchProduct = async () => {
+              try {
+                  const response = await axios.get(`/api/shop/${productId}`);
+                  setProduct(response.data);
+              } catch (error) {
+                  console.error('Error fetching product:', error);
+              }
+          };
+  
+          fetchProduct();
+      }, [productId]);
+  
+      if (!product) {
+          return <div>Loading...</div>;
+      }
 
   const handleAddToCart = () => {
     dispatch(addToCart({

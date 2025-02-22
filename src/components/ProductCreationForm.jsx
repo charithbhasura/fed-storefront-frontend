@@ -42,7 +42,7 @@ const ProductCreationForm = () => {
   const form = useForm({
     resolver: zodResolver(formSchema),
   });
-  const [createProduct, { isLoading, isError, data }] = useCreateProductMutation();
+  const [createProduct] = useCreateProductMutation();
   const navigate = useNavigate();
   const [imagePreview, setImagePreview] = useState(null);
   
