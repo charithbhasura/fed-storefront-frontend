@@ -3,16 +3,17 @@ import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 // Define a service using a base URL and expected endpoints
 export const Api = createApi({
   reducerPath: 'Api',
-  baseQuery: fetchBaseQuery({ baseUrl: "https://fed-storefront-backend-charith.onrender.com/api/" }),
-
-  prepareHeaders: async (headers, { getState }) => {
+  baseQuery: fetchBaseQuery({ 
+    baseUrl: "https://fed-storefront-backend-charith.onrender.com/api/",
+    prepareHeaders: async (headers, { getState }) => {
     const token = await window.Clerk?.session?.getToken();
     console.log(token);
     if (token) {
       headers.set("Authorization", `Bearer ${token}`);
     }
     return headers;
-  },
+  }, 
+}),
 
   endpoints: (builder) => ({
     getProducts: builder.query({
@@ -42,7 +43,7 @@ export const Api = createApi({
 })
 export const getProducts = async () => {
   try {
-    const res = await fetch("http://localhost:8000/api/products", {
+    const res = await fetch("https://fed-storefront-backend-charith.onrender.com/api/", {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -62,4 +63,3 @@ export const {
   useCreateProductMutation,
   useGetOrderQuery,
 } = Api;
-
