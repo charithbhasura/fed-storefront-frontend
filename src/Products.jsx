@@ -3,8 +3,7 @@ import { Separator } from "@/components/ui/separator"
 import Tab from "./Tab";
 import { useState  } from "react";
 import { Skeleton } from "./components/ui/skeleton";
-import { useGetCategoriesQuery, useGetProductsQuery } from "@/lib/api";
-
+import { useGetCategoriesQuery, useGetProductsQuery } from "@/lib/api";    
  function Products() {
 
     const {
