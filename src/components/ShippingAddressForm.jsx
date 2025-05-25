@@ -16,7 +16,7 @@ import { useCreateOrderMutation } from "@/lib/api";
 
 const formSchema = z.object({
   line_1: z.string().min(1),
-  line_2: z.string().min(1),
+  line_2: z.string().optional(),
   city: z.string().min(1),
   state: z.string().min(1),
   zip_code: z.string().min(1),
@@ -34,26 +34,52 @@ const formSchema = z.object({
 const ShippingAddressForm = ({ cart }) => {
   const form = useForm({
     resolver: zodResolver(formSchema),
+    defaultValues: {
+    line_1: "",
+    line_2: "",
+    city: "",
+    state: "",
+    zip_code: "",
+    phone: "",
+  },
   });
   const [createOrder] = useCreateOrderMutation();
   const navigate = useNavigate();
 
   function handleSubmit(values) {
-    createOrder({
-      items: cart.map((item) => ({
-        product: {
-          _id: item._id,
-          name: item.name,
-          price: parseFloat(item.price),
-          image: item.image,
-          description: item.description,
-        },
-        quantity: item.quantity,
-      })),
-      shippingAddress: values,
-    });
-    navigate("/shop/payment");
-  }
+  const payload = {
+    items: cart.map((item) => ({
+      product: {
+        _id: item._id,
+        name: item.product?.name || item.name,
+        price: typeof item.product?.price === "number" ? item.product.price : parseFloat(item.price),
+        image: item.product?.image || item.image,
+        description: item.product?.description || item.description,
+      },
+      quantity: item.quantity,
+    })),
+    shippingAddress: values,
+  };
+  console.log(payload);
+  createOrder(payload);
+  navigate("/shop/payment");
+}
+  // function handleSubmit(values) {
+  //   createOrder({
+  //     items: cart.map((item) => ({
+  //       product: {
+  //         _id: item._id,
+  //         name: item.name,
+  //         price: parseFloat(item.price),
+  //         image: item.image,
+  //         description: item.description,
+  //       },
+  //       quantity: item.quantity,
+  //     })),
+  //     shippingAddress: values,
+  //   });
+  //   navigate("/shop/payment");
+  // }
 
   return (
     <div className="container mx-auto px-4 py-8 ">

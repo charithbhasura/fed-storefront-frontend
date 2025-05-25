@@ -34,7 +34,7 @@ const ProductDetailsPage = (props) => {
           const fetchProduct = async () => {
               try {
                   const response = await axios.get(`/api/shop/${productId}`);
-                  setProduct(response.data);
+                  fetchProduct(response.data);
               } catch (error) {
                   console.error('Error fetching product:', error);
               }

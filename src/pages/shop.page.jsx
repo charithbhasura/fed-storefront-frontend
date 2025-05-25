@@ -204,9 +204,9 @@ const {
 
     // Sort the filtered results
     if (sortOrder === 'asc') {
-      return result.sort((a, b) => parseFloat(a.price) - parseFloat(b.price));
+      return result.slice().sort((a, b) => parseFloat(a.price) - parseFloat(b.price));
     } else if (sortOrder === 'desc') {
-      return result.sort((a, b) => parseFloat(b.price) - parseFloat(a.price));
+      return result.slice().sort((a, b) => parseFloat(b.price) - parseFloat(a.price));
     }
     return result;
   }, [selectedCategoryId, sortOrder]);
@@ -255,9 +255,9 @@ const {
         <h1 className="text-3xl font-bold text-gray-800">Shop Your Favourite Products</h1>
         <div className="flex justify-between items-center mt-4">
           <div className="mt-4 flex items-center gap-4">
-            {categories.map((category) => (
+            {categories.map((category,index) => (
               <Tab
-                key={category._id}
+                key={index}
                 _id={category._id}
                 selectedCategoryId={selectedCategoryId}
                 name={category.name}

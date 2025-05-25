@@ -20,7 +20,7 @@ function CartPage() {
                 }
             </div>
             <div className="mt-4 ">
-                <Button aschild>
+                <Button aschild={"true"}>
                     <Link to="/shop/checkout">Proceed To Checkout</Link>
                 </Button>
             </div>

@@ -4,7 +4,8 @@ import Tab from "./Tab";
 import { useState  } from "react";
 import { Skeleton } from "./components/ui/skeleton";
 import { useGetCategoriesQuery, useGetProductsQuery } from "@/lib/api";    
- function Products() {
+ 
+function Products() {
 
     const {
       data: products,
@@ -68,9 +69,9 @@ import { useGetCategoriesQuery, useGetProductsQuery } from "@/lib/api";
         <h2 className="text-4xl font-bold">Our Top Products</h2>
         <Separator className="mt-2" />
         <div className="mt-4 flex items-center gap-4">
-          {[...categories, { _id: "ALL", name: "All" }].map((category) => (
+          {[...categories, { _id: "ALL", name: "All" }].map((category,index) => (
             <Tab
-              key={category._id}
+              key={index}
               _id={category._id}
               selectedCategoryId={selectedCategoryId}
               name={category.name}
