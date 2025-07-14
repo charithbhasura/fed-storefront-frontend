@@ -4,130 +4,72 @@ import { format } from "date-fns";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 
-  // This would typically come from an API  (project backend is not connecting successfully always getting error, eventhough i fixed  with every posible way)
-  // For now using mock data for the ui implementation
-
-const mockOrders = [
-  {
-    _id: "1",
-    date: new Date("2024-03-15"),
-    status: "Delivered",
-    total: 848.00,
-    items: [
-      {
-        _id: "1",
-        name: "AirPods Max",
-        price: "549.00",
-        quantity: 1,
-        image: "./src/assets/products/airpods-max.png"
-      },
-      {
-        _id: "2",
-        name: "Echo Dot",
-        price: "299.00",
-        quantity: 1,
-        image: "./src/assets/products/echo-dot.png"
-      }
-    ]
-  },
-  {
-    _id: "2",
-    date: new Date("2024-03-10"),
-    status: "Processing",
-    total: 1299.00,
-    items: [
-      {
-        _id: "7",
-        name: "iPhone 15",
-        price: "1299.00",
-        quantity: 1,
-        image: "./src/assets/products/iphone-15.png"
-      }
-    ]
-  },
-  {
-    _id: "3",
-    date: new Date(),
-    status: "Processing",
-    total: 498.00,
-    items: [
-      {
-        _id: "4",
-        name: "Bose QuietComfort",
-        price: "249.00",
-        quantity: 2,
-        image: "./src/assets/products/quietcomfort.png"
-      }
-    ]
-  }
-];
-
-const OrderCard = ({ order }) => {
-  return (
-    <div className="bg-white rounded-lg shadow-sm p-6 mb-4">
-      <div className="flex justify-between items-start mb-4">
-        <div>
-          <p className="text-sm text-gray-500">Order ID: {order._id}</p>
-          <p className="text-sm text-gray-500">
-            Placed on {format(order.date, "MMMM d, yyyy")}
-          </p>
-        </div>
-        <div className="text-right">
-          <p className="text-lg font-semibold">${order.total.toFixed(2)}</p>
-          <span className={`inline-block px-3 py-1 rounded-full text-sm ${
-            order.status === "Delivered" 
-              ? "bg-green-100 text-green-800"
-              : "bg-blue-100 text-blue-800"
-          }`}>
-            {order.status}
-          </span>
-        </div>
+const OrderCard = ({ order }) => (
+  <div className="bg-white rounded-lg shadow-sm p-6 mb-4">
+    <div className="flex justify-between items-start mb-4">
+      <div>
+        <p className="text-sm text-gray-500">Order ID: {order._id}</p>
+        <p className="text-sm text-gray-500">
+          Placed on {format(new Date(order.date), "MMMM d, yyyy")}
+        </p>
       </div>
-
-      <Separator className="my-4" />
-
-      <div className="space-y-4">
-        {order.items.map((item) => (
-          <div key={item._id} className="flex items-center gap-4">
-            <img
-              src={item.image}
-              alt={item.name}
-              className="w-16 h-16 object-cover rounded"
-            />
-            <div className="flex-1">
-              <h3 className="font-medium">{item.name}</h3>
-              <p className="text-sm text-gray-500">
-                Quantity: {item.quantity}
-              </p>
-            </div>
-            <p className="font-medium">${item.price}</p>
-          </div>
-        ))}
+      <div className="text-right">
+        <p className="text-lg font-semibold">${order.total.toFixed(2)}</p>
+        <span className={`inline-block px-3 py-1 rounded-full text-sm ${
+          order.status === "Delivered"
+            ? "bg-green-100 text-green-800"
+            : "bg-blue-100 text-blue-800"
+        }`}>
+          {order.status}
+        </span>
       </div>
     </div>
-  );
-};
+
+    <Separator className="my-4" />
+
+    <div className="space-y-4">
+      {order.items.map((item) => (
+        <div key={item._id} className="flex items-center gap-4">
+          <img
+            src={item.image}
+            alt={item.name}
+            className="w-16 h-16 object-cover rounded"
+          />
+          <div className="flex-1">
+            <h3 className="font-medium">{item.name}</h3>
+            <p className="text-sm text-gray-500">
+              Quantity: {item.quantity}
+            </p>
+          </div>
+          <p className="font-medium">${item.price}</p>
+        </div>
+      ))}
+    </div>
+  </div>
+);
 
 const MyOrdersPage = () => {
-
-
   const [orders, setOrders] = useState([]);
-
-    useEffect(() => {
-        const fetchOrders = async () => {
-            try {
-                const response = await axios.get('/api/order');
-                setOrders(response.data);
-            } catch (error) {
-                console.error('Error fetching orders:', error);
-            }
-        };
-
-        fetchOrders();
-    }, []);
-
-
+  const [loading, setLoading] = useState(true);
   const { user } = useUser();
+
+  useEffect(() => {
+    const fetchOrders = async () => {
+      try {
+        const response = await axios.get("/api/orders");
+        // Log the response to debug
+        console.log("Orders API response:", response.data);
+        // Try to set as array, fallback to [] if not
+        setOrders(Array.isArray(response.data) ? response.data : response.data.orders || []);
+      } catch (error) {
+        console.error("Error fetching orders:", error);
+        setOrders([]);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchOrders();
+  }, []);
 
   return (
     <div className="container mx-auto px-4 py-8">
@@ -139,9 +81,11 @@ const MyOrdersPage = () => {
 
         <Separator className="mb-8" />
 
-        {mockOrders.length > 0 ? (
+        {loading ? (
+          <div className="text-center py-12 text-gray-500">Loading...</div>
+        ) : Array.isArray(orders) && orders.length > 0 ? (
           <div className="space-y-6">
-            {mockOrders.map((order) => (
+            {orders.map((order) => (
               <OrderCard key={order._id} order={order} />
             ))}
           </div>
@@ -160,4 +104,4 @@ const MyOrdersPage = () => {
   );
 };
 
-export default MyOrdersPage; 
+export default MyOrdersPage;
