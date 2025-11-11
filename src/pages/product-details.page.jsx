@@ -104,6 +104,20 @@ const ProductDetailsPage = (props) => {
               Add to Cart
             </Button>
           </div>
+          /* <div className="mt-4">
+          <h2 className="text-lg font-semibold text-gray-800 mb-2">Reviews</h2>
+          {product.reviews?.length ? (
+            product.reviews.map((review, idx) => (
+              <div key={idx} className="mb-2">
+                <span className="font-bold text-gray-700">{review.user}</span>
+                <span className="ml-2 text-yellow-400">{"★".repeat(review.rating)}</span>
+                <p className="text-gray-600">{review.comment}</p>
+              </div>
+            ))
+          ) : (
+            <p className="text-gray-500">No reviews yet.</p>
+          )}
+        </div> */
         </div>
       </div>
     </div>

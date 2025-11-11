@@ -40,11 +40,6 @@ function AccountPage() {
             <p className="text-gray-600">{user.emailAddresses[0].emailAddress}</p>
           </div>
         </div>
-        <div className="mt-8 flex justify-center">
-          <Button className="px-6 py-2 rounded-lg bg-yellow-400 text-white font-semibold hover:bg-yellow-500 transition">
-            Edit Profile
-          </Button>
-        </div>
       </div>
     </main>
   );
