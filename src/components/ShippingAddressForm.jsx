@@ -65,12 +65,8 @@ const ShippingAddressForm = ({ cart }) => {
     createOrder(payload)
       .unwrap()
       .then((order) => {
-        if (order && order._id) {
           navigate(`/shop/payment?orderId=${order._id}`);
           toast.success("Order placed successfully!");
-        } else {
-          toast("Order placement failed. Please try again.");
-        }
       })
       .catch((err) => {
         console.error("Order placement error:", err);
