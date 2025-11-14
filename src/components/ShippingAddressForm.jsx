@@ -64,10 +64,16 @@ const ShippingAddressForm = ({ cart }) => {
     // console.log("Order payload:", payload);
     createOrder(payload)
       .unwrap()
-      .then((order) => {
-          navigate(`/shop/payment?orderId=${order._id}`);
-          toast.success("Order placed successfully!");
-      })
+      .then((res) => {
+    const order = res.order;
+    if (order?._id) {
+      navigate(`/shop/payment?orderId=${order._id}`);
+      toast.success("Order placed successfully!");
+    } else {
+      console.error("Order returned null:", order);
+      toast.error("Order placement failed. Please check your details.");
+    }
+  })
       .catch((err) => {
         console.error("Order placement error:", err);
         toast(
